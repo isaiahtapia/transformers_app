@@ -10,29 +10,29 @@ const auth_routes = require('./routes/auth_routes');
 const app = express();
 const PORT = 3333;
 
-// Create a GET route for every file inside of client 
-app.use(express.static('../client'))
+// Create a GET route for every file inside of client
+app.use(express.static('../client'));
 
-//Attach all client-side cookies on the req.cookies property 
-app.use(cookieParser())
+// Attach all client-side cookies to the req.cookies property
+app.use(cookieParser());
 
-//ADD JSON middleware / Allow JSON to be attached to req.body 
+// Add the JSON middleware / Allow JSON to be attached to req.body
 app.use(express.json());
 
-//Load our routes
-app.use ('/api', api_routes);
-app.use ('/api/auth', auth_routes);
+// Load our routes
+app.use('/api', api_routes);
+app.use('/api/auth', auth_routes);
 
-//Send back the index.html file for all other requests/routes
+// Send back the index.html file for all other requests/routes
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname))
+  res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
 db.once('open', () => {
-    console.log('DB connection established');
+  console.log('DB connection established');
 
-    //Start express server
-    app.listen(PORT, () => {
-        console.log('Express started on port', PORT);
-    })
+  // Start express server
+  app.listen(PORT, () => {
+    console.log('Express server started on port', PORT);
+  })
 });
